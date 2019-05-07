@@ -16,6 +16,8 @@ class CfdSimpleEnv(gym.Env):
 		"""
 		self.initial_temperature = 24 # 房间初始温度场中某传感器温度（基于稳态计算结果）
 		self.initial_load = 2 # 房间初始的机柜负载
+		self.initial_setpoint = 22 # 空调初始的温度设定值
+		
 		self.min_temperature = 13 # 房间最低温度设置为冷冻水进口温度————13摄氏度。
 		self.max_temperature = 40 # 房间最高温度暂定为40摄氏度。
 		self.min_load = 2 # 机柜最低负载，kw
@@ -64,12 +66,9 @@ class CfdSimpleEnv(gym.Env):
 		return self.state, reward, done, {}
 
 
-		
-
-
 
 	def reset(self):
-		self.state = np.array([self.initial_temperature,self.initial_load])
+		self.state = np.array([self.initial_temperature,self.initial_load,self.initial_setpoint])
 		return np.array(self.state)
 
 	# def render(self, mode='human'):
