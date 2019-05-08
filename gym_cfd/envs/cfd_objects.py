@@ -1,3 +1,7 @@
+"""
+这里定义的类是所有能通过matlab脚本与6sigmaroom交互的对象及其属性。其中主要关注：controller, sensor, acu, itequipment.
+"""
+
 class Controller():
     def __init__(self):
         self.Output = None # read only, the current signal output from the controller. %

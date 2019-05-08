@@ -30,8 +30,9 @@ class CfdSimpleEnv(gym.Env):
 		
 		self.viewer = None
 
-		self.action_space = spaces.Box(low=np.array([self.min_temperature_setpoint]),
-									   high=np.array([self.max_temperature_setpoint]), 
+		self.action_space = spaces.Box(low=self.min_temperature_setpoint,
+									   high=self.max_temperature_setpoint, 
+                                       shape=(1,),
 									   dtype=np.float32)
 
 		self.observation_space = spaces.Box(low=self.low_state,
@@ -46,7 +47,7 @@ class CfdSimpleEnv(gym.Env):
 		return [seed]
 		
 	def step(self, action):
-		assert self.action_space.contains(action), "%r (%s) invalid"%(action,type(action))
+		# assert self.action_space.contains(action), "%r (%s) invalid"%(action,type(action))
 		state = self.state
 		temperature, load, temperature_setpoint = state
 

@@ -16,5 +16,5 @@ register(
 
 register(
     id='cfd_complex-v0',
-    entry_point='gym_foo.envs:CfdComplexEnv',
+    entry_point='gym_cfd.envs:CfdComplexEnv',
 )
