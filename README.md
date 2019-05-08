@@ -17,3 +17,11 @@ for i in range(1000):
     print(state, reward, done, info)
 env.close()
 ```
+# Matlab API for python
+Instruction：[https://ww2.mathworks.cn/help/matlab/matlab_external/install-the-matlab-engine-for-python.html](https://ww2.mathworks.cn/help/matlab/matlab_external/install-the-matlab-engine-for-python.html)
+```
+import matlab.engine as megn
+eng = megn.start_matlab() 
+eng.example(nargout=0) # call example.m
+data = eng.workspace['SixSigma']
+```
