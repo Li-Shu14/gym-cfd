@@ -21,7 +21,9 @@ env.close()
 Instruction：[https://ww2.mathworks.cn/help/matlab/matlab_external/install-the-matlab-engine-for-python.html](https://ww2.mathworks.cn/help/matlab/matlab_external/install-the-matlab-engine-for-python.html)
 ```
 import matlab.engine as megn
-eng = megn.start_matlab() 
+matlab_number = megn.find_matlab()[0]
+eng = megn.connect_matlab(matlab_number,async=False)
+#eng = megn.start_matlab() 
 eng.example(nargout=0) # call example.m
 data = eng.workspace['SixSigma']
 ```
