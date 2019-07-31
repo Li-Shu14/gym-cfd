@@ -1,0 +1,19 @@
+"""
+总仿真时间:  60 min
+时间步:      1  min
+迭代步:      60
+控制间隔：1min
+
+环境：墙壁为27攝氏度恒温（环境温度也无法通过csv改变的)
+奖励函数：reward = λt*ln(1+exp(T-25)) + λe*(E_fan+E_CoolingStation)	
+负载暂时固定
+风机暂时转速
+
+6sigma路径："C:\Users\lishu\Desktop\matlab\Examples\SimpleTestCaseLISHU\SimpleTestCase.room"
+
+第一阶段学习目标：面对稳定环境学习一个稳定的策略
+
+第二阶段学习目标：面对变化的环境（墙壁温度-温度在一次计算里变不了，负载）学习策略
+
+第三阶段：将风机转速也作为根据控制器output而变化的量，耦合起来。
+""" 
