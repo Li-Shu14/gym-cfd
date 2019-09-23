@@ -5,11 +5,8 @@ import logging
 import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
-from cfd_objects import *
-from matlab_util import *
-
-# from gym_cfd.envs.util import *
-
+from gym_cfd.envs.cfd_objects import *
+from gym_cfd.envs.matlab_util import *
 class CfdSimpleEnv(gym.Env):
 	metadata = {'render.modes': ['human']}
 	def __init__(self):
@@ -26,22 +23,17 @@ class CfdSimpleEnv(gym.Env):
 		self.out = None
 		self.err = None
 		self.eng = new_matlab_engine(matlab_mode = 1) 
-
-
-		# self.local_path = 'C:\\Users\\lishu\\Desktop\\matlab\\Examples\\SimpleTestCaseLISHU\\SimpleTestCase\\Transient\\SolverExchange'
-		# self.local_path = os.path.abspath('')
-
 		# ----仿真房间的部分常数设置----
 		self.LAMBDA_temp = 0.002 					# reward函数中温度罚项前的系数
 		self.LAMBDA_energy = 0.002 					# reward函数中能耗项前的系数
 		self.time_interval = 1						# 控制实施的时间间隔,min
 		self.current_time = 0						# 当前时间
-		self.SixSigma = None						#
-		self.SixSigmaHistroy = [] 					# 历史记录
-		self.ParametersHistroy = []					# 
+		self.SixSigma = None						# 每个迭代步从Matlab接收的原数据
+		self.SixSigmaHistroy = [] 					# 原数据历史记录
+		self.ParametersHistroy = []					# 参数历史
 		self.rated_power = 3 						# 空调额定功率，kW
 		self.energy_efficiency = 3	 				# 空调能效比,每kW电能可以制造的冷量kW，数据机房空调通常是2.5-3.5
-		self.initial_temperature = 24.0 			# 房间初始温度场中某传感器温度（基于稳态计算结果）//神奇，在这一步之后设置断点就跑不起来···停不下来
+		self.initial_temperature = 24.0 			# 房间初始温度场中某传感器温度（基于稳态计算结果）
 		self.initial_load = 0.5 					# 房间初始的机柜负载,百分比
 		self.initial_setpoint = 18.0 				# 空调初始的温度设定值
 		self.min_temperature = 13.0 				# 房间最低温度设置为冷冻水进口温度————13摄氏度。
@@ -99,7 +91,8 @@ class CfdSimpleEnv(gym.Env):
 		self.read_cfd_file() # self.state updated!
 		print(self.SixSigma)
 		self.state = np.array([self.room.sensor03.value,self.room.itequipment.HeatPowerFactor,action])
-		done = bool(self.room.sensor03.value > self.alarm_temperature) # 结束标志
+		
+		done = bool(self.room.sensor03.value > self.alarm_temperature) or self.SixSigmaHistroy[-1]['SolutionControl']['Time']['Value'] >55 # 结束标志
 		# 奖赏函数
 		if not done:
 			reward = self.LAMBDA_temp * np.log(1 + np.exp(self.room.sensor03.value - self.alarm_temperature)) + \
