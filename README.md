@@ -23,9 +23,11 @@ This project is far from completed. Welcome further discussion. Embarrassing is 
 
 # Citation
 If you find this package really helpful and are interested in citing it here's how you do it:
+```Python
 @Misc{,
     author = {Shu Li},
     title = {{Gym-CFD}: An implement of combining reinforcement learning and CFD simulation with 6SigmaRoom based on libraries from OpenAI},
     year = {2018--},
     url = " https://github.com/Li-Shu14/gym-cfd/"
 }
+```
